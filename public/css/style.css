@@ -83,6 +83,45 @@ and (max-device-width : 480px) {
 
 /* =========== Maps PHP =========== */
 #map {
-    height: 100vh;
+    height: 85vh;
     width: 100vw;
+}
+
+/* =========== Sidebar Fix =========== */
+.navigation ul li a .icon {
+    /* position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px; */
+    line-height: 0 !important;
+    /* text-align: center; */
+}
+
+/* --------- curve outside ---------- */
+.navigation ul li:hover a::before,
+.navigation ul li.hovered a::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: -50px;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 0 !important;
+    box-shadow: 35px 35px 0 10px var(--gray);
+    pointer-events: none;
+}
+
+.navigation ul li:hover a::after,
+.navigation ul li.hovered a::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -50px;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 0 !important;
+    box-shadow: 35px -35px 0 10px #fff;
+    pointer-events: none;
 }

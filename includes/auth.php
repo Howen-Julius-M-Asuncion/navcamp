@@ -3,6 +3,7 @@ include_once('../config/dbcon.php');
 include_once '../config/config.php';
 
 session_start();
+
 $username = $_POST['username']; 
 $password = $_POST['password'];
 
@@ -35,4 +36,12 @@ if($result->num_rows>0){
         header('Location: '. BASE_URL .'/public/login.php');
     }
 }
+
+// Proccess guests 
+if($_POST['guest'] == "guest"){
+    $_SESSION['guest']="TRUE";	
+    header('Location: '. BASE_URL .'/public/map.php');
+    $_SESSION['debug']="YES I AM A GUEST";
+}
+
 ?>

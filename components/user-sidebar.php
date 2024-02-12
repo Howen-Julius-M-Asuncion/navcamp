@@ -17,17 +17,9 @@
         <li>
             <a href="">
                 <span class="icon">
-                    <i class="fa-solid fa-gauge"></i>
-                </span>
-                <span class="title">Dashboard</span>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <span class="icon">
                     <i class="fa-solid fa-people-roof"></i>
                 </span>
-                <span class="title">Room Management</span>
+                <span class="title">Rooms</span>
             </a>
         </li>
         <li>
@@ -35,7 +27,7 @@
                 <span class="icon">
                     <i class="fa-regular fa-calendar-days"></i>
                 </span>
-                <span class="title">Schedule Management</span>
+                <span class="title">Schedules</span>
             </a>
         </li>
         <hr>
@@ -52,7 +44,7 @@
                 <span class="icon">
                     <i class="fa-solid fa-person-walking-arrow-right"></i>
                 </span>
-                <span class="title">Log Out</span>
+                <span class="title">Exit</span>
             </a>
         </li>
     </ul>
