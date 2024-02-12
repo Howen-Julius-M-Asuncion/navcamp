@@ -36,7 +36,7 @@
             <div class="row d-flex justify-content-center align-items-center mt-4">
                 <div class="col-lg-4 col-md-5 col-sm-6 px-5">
                     <center><h3>Log In Your Account</h3></center>
-                    <form method="post" action="../includes/auth.php" id="login-form">
+                    <form method="post" action="/includes/auth.php" id="login-form">
                         <div class="input-field mt-3">
                             <div class="input-container">
                                 <i class="in fa-solid fa-at"></i>

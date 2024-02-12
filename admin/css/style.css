@@ -1,0 +1,9 @@
+/* =========== Sidebar Fix =========== */
+.navigation ul li a .icon {
+    /* position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px; */
+    line-height: 0 !important;
+    /* text-align: center; */
+}

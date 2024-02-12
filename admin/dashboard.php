@@ -13,16 +13,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/71f85e3db5.js" crossorigin="anonymous"></script>
     <style>
-
+        /* Style Here */
     </style>
 </head>
 <body>
-<?php
-    include_once('../components/sidebar.php');
-?>
+    <?php include_once('../components/admin-sidebar.php');?>
+
+
+    </div>
 </body>
-<script>
-</script>
+
 <script src="./js/script.js"></script>
+<script>
+    /* Script Here */
+</script>
 
 </html>
