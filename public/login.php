@@ -65,14 +65,17 @@
             </div>
             <div class="row">
                 <div class="col extra mt-5">
-                    Continue without account? <a href="./index.php">Go Back</a>
+                    Continue without account? <a href="./index.php">Click Here!</a>
                 </div>
             </div>
         </div>
     </div>
 </body>
 <script>
-
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
 </script>
 </html>
 <?php

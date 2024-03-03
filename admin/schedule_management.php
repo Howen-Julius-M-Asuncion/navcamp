@@ -17,9 +17,53 @@
     </style>
 </head>
 <body>
-    <?php include_once('../components/admin-sidebar.php');?>
-
-
+    <div class="container-fluid">
+        <?php include_once('../components/admin-sidebar.php');?>
+            <div class="bg-light rounded p-3 shadow-sm m-4">
+                <div class="row px-3">
+                    <div class="col head-title d-flex justify-content-between my-2">
+                            <h5>Schedule Management</h5>
+                        <div class="search d-flex justify-content-end">
+                            <label>
+                                <input class="me-2" id="searchInput" type="text" placeholder="Search...">
+                                <i class="mx-2 fa-solid fa-magnifying-glass"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row px-3">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">Room Code</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Handle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            </tr>
+                            <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                            </tr>
+                            <tr>
+                            <th scope="row">3</th>
+                            <td colspan="2">Larry the Bird</td>
+                            <td>@twitter</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 

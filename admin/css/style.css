@@ -7,3 +7,22 @@
     line-height: 0 !important;
     /* text-align: center; */
 }
+
+/* =========== BS5 Adjustments =========== */
+.container-fluid {
+    --bs-gutter-x: 0 !important;
+}
+
+/* =========== Table Format =========== */
+.search input, .dt-search input {
+    border: 1px #ccc !important;
+    border-style: none none solid none !important;
+}
+
+/* Remove focus highlight */
+input:focus {
+    outline:none !important;
+    outline-width: 0 !important;
+    box-shadow: none;
+}
+

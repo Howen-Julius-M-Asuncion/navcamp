@@ -13,13 +13,28 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/71f85e3db5.js" crossorigin="anonymous"></script>
     <style>
-        /* Style Here */
+        .container-fluid{
+            --bs-gutter-x: 0;
+        }
     </style>
 </head>
 <body>
-    <?php include_once('../components/admin-sidebar.php');?>
-
-
+    <div class="container-fluid">
+        <?php include_once('../components/admin-sidebar.php');?>
+            <div class="row statistics mx-4 mt-4">
+                <div class="col bg-light rounded-3 p-3 shadow-sm mb-5 me-2">
+                    <?php
+                        echo '--- Registered Users';
+                    ?>
+                </div>
+                <div class="col bg-light rounded-3 p-3 shadow-sm mb-5 ms-2">
+                    <?php
+                        echo '--- Online Users';
+                    ?>
+                </div>
+            </div>    
+        
+        </div>
     </div>
 </body>
 

@@ -15,7 +15,7 @@
         </li>
         <hr>
         <li>
-            <a href="">
+            <a href="<?php echo BASE_URL?>/admin/dashboard.php">
                 <span class="icon">
                     <i class="fa-solid fa-gauge"></i>
                 </span>
@@ -23,7 +23,7 @@
             </a>
         </li>
         <li>
-            <a href="">
+            <a href="<?php echo BASE_URL?>/admin/room_management.php?page=1">
                 <span class="icon">
                     <i class="fa-solid fa-people-roof"></i>
                 </span>
@@ -31,7 +31,7 @@
             </a>
         </li>
         <li>
-            <a href="">
+            <a href="<?php echo BASE_URL?>/admin/schedule_management.php?page=1">
                 <span class="icon">
                     <i class="fa-regular fa-calendar-days"></i>
                 </span>
@@ -42,9 +42,9 @@
         <li>
             <a href="<?php echo BASE_URL?>/public/map.php">
                 <span class="icon">
-                    <i class="fa-solid fa-map"></i>
+                    <i class="fa-solid fa-play"></i>
                 </span>
-                <span class="title">Maps</span>
+                <span class="title">System Test</span>
             </a>
         </li>
         <li>
