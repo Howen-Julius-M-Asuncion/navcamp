@@ -23,24 +23,49 @@
             </a>
         </li>
         <li>
-            <a href="<?php echo BASE_URL?>/admin/room_management.php?page=1">
+            <a href="<?php echo BASE_URL?>/admin/room_management.php?">
                 <span class="icon">
                     <i class="fa-solid fa-people-roof"></i>
                 </span>
                 <span class="title">Room Management</span>
             </a>
         </li>
-        <li>
-            <a href="<?php echo BASE_URL?>/admin/schedule_management.php?page=1">
+        <!-- <li>
+            <a href="<?php echo BASE_URL?>/admin/schedule_management.php?">
                 <span class="icon">
-                    <i class="fa-regular fa-calendar-days"></i>
+                    <i class="fa-regular fa-calendar"></i>
                 </span>
                 <span class="title">Schedule Management</span>
             </a>
+        </li> -->
+        <li>
+            <a href="<?php echo BASE_URL?>/admin/user_management.php?">
+                <span class="icon">
+                    <i class="fa-solid fa-user-gear"></i>
+                </span>
+                <span class="title">User Management</span>
+            </a>
+        </li>
+        <!-- <li>
+            <a href="<?php //echo BASE_URL?>/admin/course_management.php?">
+                <span class="icon">
+                    <i class="fa-solid fa-book"></i>
+                </span>
+                <span class="title">Course Management</span>
+            </a>
+        </li> -->
+        <li>
+            <a href="<?php echo BASE_URL?>/admin/class_management.php?">
+                <span class="icon">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </span>
+                <span class="title">Class Management</span>
+            </a>
         </li>
         <hr>
+        <!-- Allow admin to use the system without loggin in with a user account -->
         <li>
-            <a href="<?php echo BASE_URL?>/public/map.php">
+            <a href="<?php echo BASE_URL?>/public/rooms.php" id="systemTest">
                 <span class="icon">
                     <i class="fa-solid fa-play"></i>
                 </span>
@@ -48,7 +73,7 @@
             </a>
         </li>
         <li>
-            <a href="">
+            <a href="<?php echo BASE_URL?>/includes/logout.php">
                 <span class="icon">
                     <i class="fa-solid fa-person-walking-arrow-right"></i>
                 </span>

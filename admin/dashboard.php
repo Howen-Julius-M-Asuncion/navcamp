@@ -29,11 +29,10 @@
                 </div>
                 <div class="col bg-light rounded-3 p-3 shadow-sm mb-5 ms-2">
                     <?php
-                        echo '--- Online Users';
+                        echo '--- Reservations Made';
                     ?>
                 </div>
             </div>    
-        
         </div>
     </div>
 </body>

@@ -56,10 +56,9 @@ ul {
 
 .navigation ul li {
     position: relative;
-    width: 100%;
+    width: 85%;
     list-style: none;
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
+    border-radius: 10px;
 }
 
 .navigation ul li:hover,
@@ -117,7 +116,7 @@ ul {
 }
 
 /* --------- curve outside ---------- */
-.navigation ul li:hover a::before,
+/* .navigation ul li:hover a::before,
 .navigation ul li.hovered a::before {
     content: "";
     position: absolute;
@@ -143,7 +142,7 @@ ul {
     border-radius: 50%;
     box-shadow: 35px -35px 0 10px var(--gray);
     pointer-events: none;
-}
+} */
 
 /* ===================== Main ===================== */
 .main {

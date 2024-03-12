@@ -11,7 +11,7 @@
     <link rel="icon" type="image/x-icon" href="<?php echo FAVICON;?>">
     <link href="./css/style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/v/dt/dt-2.0.1/b-3.0.0/fc-5.0.0/fh-4.0.0/r-3.0.0/rg-1.5.0/sb-1.7.0/sp-2.3.0/sl-2.0.0/datatables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/v/dt/dt-2.0.1/date-1.5.2/fh-4.0.0/r-3.0.0/sc-2.4.0/datatables.min.css" rel="stylesheet">
     <style>
     </style>
 </head>
@@ -30,11 +30,10 @@
                     </div>
                 </div>
                 <div class="row px-3">
-                    <table id="display-table" class="table table-striped" style="width:100%">
+                    <table id="room-table" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                                <th></th>
-                                <th>#</th>
+                                <th style="width: 100px;">ID</th>
                                 <th>Day/s</th>
                                 <th>Course Code</th>
                                 <th>Course Description</th>
@@ -49,7 +48,6 @@
                                     while($userList=$result2->fetch_assoc()){
                             ?>
                             <tr>
-                                <td></td>
                                 <td><?=$userList['schedule_id']?></td>
                                 <td><?=$userList['day']?></td>
                                 <td><?=$userList['course_id']?></td>
@@ -94,7 +92,7 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/v/dt/dt-2.0.1/b-3.0.0/fc-5.0.0/fh-4.0.0/r-3.0.0/rg-1.5.0/sb-1.7.0/sp-2.3.0/sl-2.0.0/datatables.min.js"></script>
+<script src="https://cdn.datatables.net/v/dt/dt-2.0.1/date-1.5.2/fh-4.0.0/r-3.0.0/sc-2.4.0/datatables.min.js"></script>
 <script src="https://kit.fontawesome.com/71f85e3db5.js" crossorigin="anonymous"></script>
 <script src="./js/script.js"></script>
 </html>

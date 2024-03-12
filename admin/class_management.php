@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room Management - <?php echo SITE_NAME?></title>
+    <title>Section Management - <?php echo SITE_NAME?></title>
     <link rel="icon" type="image/x-icon" href="<?php echo FAVICON;?>">
     <link href="./css/style.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,7 +21,7 @@
             <div class="bg-light rounded p-3 shadow-sm m-4">
                 <div class="row px-3">
                     <div class="col d-flex justify-content-between my-2">
-                        <h4>Room List</h4>
+                        <h4>Class Section Management</h4>
                         <div class="actions fs-6">
                             <button type="button" class="btn btn-outline-success btn-sm" id="addEntryBtn"><i class="fa-solid fa-plus"></i>&nbsp;New Entry</button>
                             <button type="button" class="btn btn-outline-secondary btn-sm" id="editEntryBtn"><i class="fa-solid fa-pen"></i>&nbsp;Edit</button>
@@ -34,25 +34,26 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th style="width: 100px;">Code</th>
-                                <th style="width: 10px !important;">Capacity</th>
-                                <th>Category</th>
-                                <th>Description</th>
-                                <th>Availability</th>
+                                <th style="width: 100px;">Section</th>
+                                <th>Year</th>
+                                <th>Program</th>
+                                <th>Department</th>
+                                <th>Faculty</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                $result2 = $conn->query("SELECT rooms.*, room_types.function FROM rooms JOIN room_types ON rooms.room_type_id = room_types.type_id");
+                                $result2 = $conn->query("SELECT sections.*, user_accounts.first_name, user_accounts.last_name FROM sections JOIN user_accounts ON sections.user_ID = user_accounts.user_ID");
                                     while($userList=$result2->fetch_assoc()){
+                                        $full_name = $userList['first_name'].' '.$userList['last_name'];
                             ?>
                             <tr>
                                 <td></td>
                                 <td><?=$userList['code']?></td>
-                                <td><?=$userList['capacity']?></td>
-                                <td><?=$userList['function']?></td>
-                                <td><?=$userList['description']?></td>
-                                <td><?=$userList['room_status']?></td>
+                                <td><?=$userList['year_level']?></td>
+                                <td><?=$userList['program']?></td>
+                                <td><?=$userList['department']?></td>
+                                <td><?= $full_name?></td>
                             </tr>
                             <?php
 								}
@@ -74,36 +75,39 @@
                             <h5 class="modal-title" id="addEntryModalLabel">Add Entry</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <!-- Modal Body -->
                         <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="enter_code" class="form-label">Room Code</label>
-                                <input type="text" class="form-control" id="enter_code" name="enter_code" value="">
-                            </div>
                             <div class="row mb-3">
                                 <div class="col">
-                                    <label for="enter_cat" class="form-label">Category</label>
-                                    <!-- <input type="text" class="form-control" id="enter_cat" name="enter_cat" value=""> -->
-                                    <select class="form-select" id="enter_cat" name="enter_cat" aria-label="Default select example">
+                                    <label for="enter_code" class="form-label">Section Code</label>
+                                    <input type="text" class="form-control" id="enter_code" name="enter_code" value="">
+                                </div>
+                                <div class="col">
+                                    <label for="enter_year" class="form-label">Year Level</label>
+                                    <input type="number" class="form-control" id="enter_year" name="enter_year" value="">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="enter_prog" class="form-label">Program</label>
+                                <input type="text" class="form-control" id="enter_prog" name="enter_prog" value="">
+                            </div>
+                            <div class="mb-3">
+                                <label for="enter_dept" class="form-label">Department</label>
+                                <input type="text" class="form-control" id="enter_dept" name="enter_dept" value="">
+                            </div>
+                            <div class="mb-3">
+                                <label for="enter_faculty" class="form-label">Faculty</label>
+                                <select class="form-select" id="enter_faculty" name="enter_faculty" aria-label="Default select example">
                                         <option selected></option>
                                         <?php
-                                        $result2 = $conn->query("SELECT * FROM room_types");
+                                        $result2 = $conn->query("SELECT * FROM user_accounts WHERE user_type_id = 1");
                                             while($userList=$result2->fetch_assoc()){
+                                                $full_name = $userList['first_name'].' '.$userList['last_name'];
                                         ?>
-                                        <option value="<?= $userList['type_id'] ?>"><?= $userList['function'] ?></option>
+                                        <option value="<?= $userList['user_id'] ?>"><?= $full_name?></option>
                                         <?php
                                             }
                                         ?>
                                     </select>
-                                </div>
-                                <div class="col">
-                                    <label for="e" class="form-label">Capacity</label>
-                                    <input type="number" class="form-control" id="enter_cap" name="eentr_cap" value="">
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="enter_desc" class="form-label">Description</label>
-                                <input type="text" class="form-control" id="enter_desc" name="enter_desc" value="">
                             </div>
                         </div>
                         <!-- Modal Footer -->
@@ -136,17 +140,20 @@
                 </div>
             </div>
         </form>
+
+
     </div>
 </body>
 <!-- PHP logic for data insertion modal -->
 <?php 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["addEntry"])) {
         $code = $_POST["enter_code"];
-        $category = $_POST["enter_cat"];
-        $capacity = $_POST["enter_cap"];
-        $description = $_POST["enter_desc"];
+        $program = $_POST["enter_prog"];
+        $department = $_POST["enter_dept"];
+        $year_level = $_POST["enter_year"];
+        $faculty = $_POST["enter_faculty"];
 
-        $query = "INSERT INTO rooms (code, capacity, description, room_type_id, location_id, schedule_id, room_status) VALUES ('$code', '$capacity', '$description', '$category', '2', '3', 'available')";
+        $query = "INSERT INTO sections (code, program, department, year_level, user_id) VALUES ('$code', '$program', '$department', '$year_level', '$faculty')";
 
         if (mysqli_query($conn, $query)) {	
             echo "<script> alert('Data Inserted Successfully'); </script>";
