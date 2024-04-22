@@ -1,32 +1,11 @@
 <?php
+    session_start();
     include_once('../config/config.php');
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['guestAccount']) && $_POST['guestAccount'] === 'TRUE') {
+        $_SESSION['guestAccount'] = TRUE;
+        header('Location: '. BASE_URL .'/public/rooms.php');
+    }else{
+        header('Location: '. BASE_URL .'/public/login.php');
+    }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo SITE_NAME?></title>
-    <link rel="icon" type="image/x-icon" href="<?php echo FAVICON;?>">
-    <link href="./css/style.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/71f85e3db5.js" crossorigin="anonymous"></script>
-    <style>
-        .logo-landing {
-            width: 10rem;
-        }
-
-        .title, .extra {
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    
-</body>
-<script>
-
-</script>
-
-</html>

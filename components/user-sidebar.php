@@ -17,9 +17,9 @@
         <li>
             <a href="<?php echo BASE_URL?>/public/rooms.php">
                 <span class="icon">
-                    <i class="fa-solid fa-people-roof"></i>
+                    <i class="fa-solid fa-magnifying-glass"></i>
                 </span>
-                <span class="title">Rooms</span>
+                <span class="title">Search Rooms</span>
             </a>
         </li>
         <!-- <li>
@@ -35,7 +35,7 @@
                 <span class="icon">
                     <i class="fa-regular fa-clock"></i>
                 </span>
-                <span class="title">Reservation</span>
+                <span class="title">Reserve Room</span>
             </a>
         </li>
         <li>
@@ -49,11 +49,11 @@
         <hr>
         <!-- Allow admin to go back to admin dashboard without relogging -->
         <!-- <li style="display: block;">
-            <a href="<?php //echo BASE_URL?>/public/rooms.php" id="systemTest">
+            <a href="<?php // echo BASE_URL?>/components/php/admin_test.php">
                 <span class="icon">
                     <i class="fa-regular fa-circle-stop"></i>
                 </span>
-                <span class="title">Stop Test</span>
+                <span class="title">End Preview</span>
             </a>
         </li> -->
         <li>

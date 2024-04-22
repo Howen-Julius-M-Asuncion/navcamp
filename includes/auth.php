@@ -1,48 +1,55 @@
 <?php
-include_once('../config/dbcon.php');
-include_once '../config/config.php';
+    include_once('../config/dbcon.php');
+    include_once '../config/config.php';
 
-session_start();
+    session_start();
 
-$username = $_POST['username']; 
-$password = $_POST['password'];
+    $username = $_POST['username']; 
+    $password = $_POST['password'];
 
-$sqlLogin = "SELECT * FROM admin_accounts as admin WHERE admin.username='{$username}' and admin.password='{$password}'";
-$result = $conn->query($sqlLogin);
-
-// Check if the account is admin, if it is then continue to admin dashboard 
-if($result->num_rows>0){
-	$_SESSION['active']="TRUE";
-	while($rowUser=$result->fetch_assoc()){
-		$_SESSION['activeAdmin']="TRUE";
-		header('Location: '. BASE_URL .'/admin/dashboard.php');
-	}
-	$_SESSION['active']="TRUE";	
-}else{
-    // If the account is not an admin, then look for user table
-    $sqlLogin = "SELECT * FROM user_accounts as user WHERE user.username='{$username}' and user.password='{$password}'";
+    // Check if the user exists in the users table with the provided credentials
+    $sqlLogin = "SELECT * FROM users WHERE (username='{$username}' OR email='{$username}') AND password='{$password}'";
     $result = $conn->query($sqlLogin);
-    if($result->num_rows>0){
+
+    if ($result->num_rows > 0) {
         $_SESSION['active']="TRUE";
-        while($rowUser=$result->fetch_assoc()){
-            if($rowUser['user_type_id'] == 1){
-                $_SESSION['student']="TRUE";
-                header('Location: '. BASE_URL .'/public/maps.php');
-            }elseif($rowUser['user_type_id'] == 2){
+        $user = $result->fetch_assoc();
+        $user_id = $user['id'];
+        
+        // Check if the user is an admin
+        $sqlAdminLogin = "SELECT * FROM admins WHERE user_id = '{$user_id}'";
+        $resultAdmin = $conn->query($sqlAdminLogin);
+        
+        if ($resultAdmin->num_rows > 0) {
+            $_SESSION['admin']="TRUE";
+            header('Location: '. BASE_URL .'/admin/dashboard.php');
+        } else {
+
+            // Check if the user is a teacher
+            $sqlFacultyLogin = "SELECT * FROM faculty WHERE user_id = '{$user_id}'";
+            $resultFaculty = $conn->query($sqlFacultyLogin);
+
+            if ($resultFaculty->num_rows > 0) {
                 $_SESSION['faculty']="TRUE";
-                header('Location: '. BASE_URL .'/public/maps.php');
+                header('Location: '. BASE_URL .'/public/rooms.php');
+            } else {
+
+                // Check if the user is a student
+                $sqlStudentLogin = "SELECT * FROM students WHERE user_id = '{$user_id}'";
+                $resultStudent = $conn->query($sqlStudentLogin);
+
+                if ($resultStudent->num_rows > 0) {
+                    $_SESSION['student']="TRUE";
+                    header('Location: '. BASE_URL .'/public/rooms.php');
+                } else {
+                    $_SESSION["error_message"]= "User is not assigned!";
+                    header('Location: '. BASE_URL .'/public/login.php');
+                }
             }
         }
-    }else{
+    } else {
         $_SESSION["error_message"]= "Invalid Username or Password!";
+        session_abort();
         header('Location: '. BASE_URL .'/public/login.php');
     }
-}
-
-// Proccess guests [SCRAPED/REMOVED!]
-// if($_POST['guest'] == "guest"){
-//     $_SESSION['guest']="TRUE";	
-//     header('Location: '. BASE_URL .'/public/map.php');
-//     $_SESSION['debug']="YES I AM A GUEST";
-// }
 ?>

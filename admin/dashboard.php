@@ -29,7 +29,7 @@
                 </div>
                 <div class="col bg-light rounded-3 p-3 shadow-sm mb-5 ms-2">
                     <?php
-                        echo '--- Reservations Made';
+                        echo '--- Related Statistic';
                     ?>
                 </div>
             </div>    

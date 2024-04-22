@@ -47,6 +47,10 @@
                             <div class="input-container">
                                 <i class="in fa-solid fa-key"></i>
                                 <input type="password" class="form-control" id="account-password" required="true" name="password" placeholder="Password">
+                                <span class="input-group-text" onclick="password_show_hide();">
+                                    <i class="fas fa-eye" id="show_eye"></i>
+                                    <i class="fas fa-eye-slash d-none" id="hide_eye"></i>
+                                </span>
                             </div>
                         </div>
                         <!-- Login Error Message -->
@@ -64,18 +68,43 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col extra mt-5">
-                    Continue without account? <a href="./index.php">Click Here!</a>
-                </div>
+                <div class="col extra mt-5">Continue without account? <a href="#" onclick="guestAccount()">Click Here!</a></div>
             </div>
         </div>
     </div>
 </body>
 <script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
+    function password_show_hide() {
+        var x = document.getElementById("account-password");
+        var show_eye = document.getElementById("show_eye");
+        var hide_eye = document.getElementById("hide_eye");
+        hide_eye.classList.remove("d-none");
+        if (x.type === "password") {
+            x.type = "text";
+            show_eye.style.display = "none";
+            hide_eye.style.display = "block";
+        } else {
+            x.type = "password";
+            show_eye.style.display = "block";
+            hide_eye.style.display = "none";
+        }
+    }
+
+    function guestAccount() {
+        var form = document.createElement('form');
+        form.method = 'post';
+        form.action = './index.php';
+
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'guestAccount';
+        input.value = 'TRUE';
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+
+        form.submit();
+    }
 </script>
 </html>
 <?php

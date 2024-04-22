@@ -7,11 +7,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schedule Management - <?php echo SITE_NAME?></title>
+    <title>Course Management - <?php echo SITE_NAME?></title>
     <link rel="icon" type="image/x-icon" href="<?php echo FAVICON;?>">
     <link href="./css/style.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/v/dt/dt-2.0.1/date-1.5.2/fh-4.0.0/r-3.0.0/sc-2.4.0/datatables.min.css" rel="stylesheet">
+    <?php include_once('../plugins/plugins-css.php');?>
     <style>
     </style>
 </head>
@@ -21,40 +20,38 @@
             <div class="bg-light rounded p-3 shadow-sm m-4">
                 <div class="row px-3">
                     <div class="col d-flex justify-content-between my-2">
-                            <h4>Schedule Management</h4>
+                        <h4>Course Management</h4>
                         <div class="actions fs-6">
-                            <button type="button" class="btn btn-outline-success btn-sm" id="newEntry"><i class="fa-solid fa-plus"></i>&nbsp;New Entry</button>
-                            <button type="button" class="btn btn-outline-secondary btn-sm" id="editBtn"><i class="fa-solid fa-pen"></i>&nbsp;Edit</button>
-                            <button type="button" class="btn btn-outline-danger btn-sm" id="deleteBtn"><i class="fa-solid fa-trash-can"></i>&nbsp;Delete</button>
+                            <form method="get" action="" id="">
+                                <button type="button" class="btn btn-outline-success btn-sm" id="addEntryBtn"><i class="fa-solid fa-plus"></i>&nbsp;New Entry</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="editEntryBtn"><i class="fa-solid fa-pen"></i>&nbsp;Edit</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" id="deleteEntryBtn"><i class="fa-solid fa-trash-can"></i>&nbsp;Delete</button>
+                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="row px-3">
-                    <table id="room-table" class="table table-striped" style="width:100%">
+                    <table id="display-table" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                                <th style="width: 100px;">ID</th>
-                                <th>Day/s</th>
-                                <th>Course Code</th>
-                                <th>Course Description</th>
-                                <th>Faculty</th>
-                                <th>Time Range</th>
-                                <th>Class Section</th>
+                                <th></th>
+                                <th>ID</th>
+                                <th>Code</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                $result2 = $conn->query("SELECT * FROM schedules");
-                                    while($userList=$result2->fetch_assoc()){
+                                $query = "SELECT * FROM courses";
+                                
+                                $result = $conn->query($query);
+                                    while($list=$result->fetch_assoc()){
                             ?>
                             <tr>
-                                <td><?=$userList['schedule_id']?></td>
-                                <td><?=$userList['day']?></td>
-                                <td><?=$userList['course_id']?></td>
-                                <td><?=$userList['course_id']?></td>
-                                <td><?=$userList['user_id']?></td>
-                                <td><?=$userList['time_slot_id']?></td>
-                                <td><?=$userList['section_id']?></td>
+                                <td></td>
+                                <td><?=$list['id']?></td>
+                                <td><?=$list['code']?></td>
+                                <td><?=$list['description']?></td>
                             </tr>
                             <?php
 								}
@@ -67,12 +64,46 @@
 
         <!-- Modals for action class -->
         <!-- Add Entry Modal -->
-        <form method="post" action="" id="">
+        <form method="post" action="" id="addEntryForm">
             <div class="modal fade" id="addEntryModal" tabindex="-1" aria-labelledby="addEntryModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
+                        <!-- Modal Header -->
                         <div class="modal-header">
                             <h5 class="modal-title" id="addEntryModalLabel">Add Entry</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <div class="col">
+                                    <label for="enter_code" class="form-label">Course Code</label>
+                                    <input type="text" class="form-control" id="enter_code" name="enter_code" value="">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="col">
+                                    <label for="enter_desc" class="form-label">Description</label>
+                                    <textarea class="form-control" id="enter_desc" name="enter_desc" rows="5"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal Footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal"><i class="fa-solid fa-ban"></i>&nbsp;Cancel</button>
+                            <!-- <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal"><i class="fa-solid fa-circle-check"></i>&nbsp;Apply and Add New</button> -->
+                            <button type="submit" class="btn btn-success btn-sm" data-bs-dismiss="modal" name="addEntry"><i class="fa-regular fa-circle-check"></i>&nbsp;Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- Edit Entry Modal -->
+        <form method="post" action="" id="">
+            <div class="modal fade" id="editEntryModal" tabindex="-1" aria-labelledby="editEntryModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editEntryModalLabel">Edit Entry</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -80,7 +111,6 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal"><i class="fa-solid fa-ban"></i>&nbsp;Cancel</button>
-                            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal"><i class="fa-solid fa-circle-check"></i>&nbsp;Apply and Add New</button>
                             <button type="button" class="btn btn-success btn-sm" data-bs-dismiss="modal"><i class="fa-regular fa-circle-check"></i>&nbsp;Confirm</button>
                         </div>
                     </div>
@@ -88,11 +118,40 @@
             </div>
         </form>
 
+
     </div>
 </body>
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/v/dt/dt-2.0.1/date-1.5.2/fh-4.0.0/r-3.0.0/sc-2.4.0/datatables.min.js"></script>
-<script src="https://kit.fontawesome.com/71f85e3db5.js" crossorigin="anonymous"></script>
+<!-- PHP logic for data insertion modal -->
+<?php 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["addEntry"])) {
+        $code = $_POST["enter_code"];
+        $description = $_POST["enter_desc"];
+
+        $query = "INSERT INTO courses (code, description) VALUES ('$code', '$description')";
+
+        if (mysqli_query($conn, $query)) {	
+            echo "<script> alert('Data Inserted Successfully'); </script>";
+        } else {
+            echo "Error: " . $query . "<br>" . mysqli_error($conn);
+        }
+    }
+?>
+<?php include_once('../plugins/plugins-js.php');?>
 <script src="./js/script.js"></script>
+<script>
+    // Function to reset the modal form fields
+    function resetModal() {
+        // Reset input fields
+        $('#enter_code').val('');
+        $('#enter_desc').val('');
+    }
+
+    $(document).ready(function() {
+        // Reset modal on close
+        $('#addEntryModal').on('hidden.bs.modal', function () {
+            resetModal();
+        });
+    });
+
+</script>
 </html>

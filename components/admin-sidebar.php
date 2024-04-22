@@ -31,7 +31,7 @@
             </a>
         </li>
         <!-- <li>
-            <a href="<?php echo BASE_URL?>/admin/schedule_management.php?">
+            <a href="<?php // echo BASE_URL?>/admin/schedule_management.php?">
                 <span class="icon">
                     <i class="fa-regular fa-calendar"></i>
                 </span>
@@ -46,14 +46,7 @@
                 <span class="title">User Management</span>
             </a>
         </li>
-        <!-- <li>
-            <a href="<?php //echo BASE_URL?>/admin/course_management.php?">
-                <span class="icon">
-                    <i class="fa-solid fa-book"></i>
-                </span>
-                <span class="title">Course Management</span>
-            </a>
-        </li> -->
+        <hr>
         <li>
             <a href="<?php echo BASE_URL?>/admin/class_management.php?">
                 <span class="icon">
@@ -62,16 +55,32 @@
                 <span class="title">Class Management</span>
             </a>
         </li>
+        <li>
+            <a href="<?php echo BASE_URL?>/admin/course_management.php?">
+                <span class="icon">
+                    <i class="fa-solid fa-book"></i>
+                </span>
+                <span class="title">Course Management</span>
+            </a>
+        </li>
+        <li>
+            <a href="<?php echo BASE_URL?>/admin/section_management.php?">
+                <span class="icon">
+                    <i class="fa-solid fa-user-group"></i>
+                </span>
+                <span class="title">Section Management</span>
+            </a>
+        </li>
         <hr>
         <!-- Allow admin to use the system without loggin in with a user account -->
-        <li>
-            <a href="<?php echo BASE_URL?>/public/rooms.php" id="systemTest">
+        <!-- <li>
+            <a href="<?php //echo BASE_URL?>/components/php/admin_test.php">
                 <span class="icon">
                     <i class="fa-solid fa-play"></i>
                 </span>
-                <span class="title">System Test</span>
+                <span class="title">User Preview</span>
             </a>
-        </li>
+        </li> -->
         <li>
             <a href="<?php echo BASE_URL?>/includes/logout.php">
                 <span class="icon">
@@ -82,7 +91,6 @@
         </li>
     </ul>
 </div>
-
 <!-- Main Section -->
 <div class="main">
 

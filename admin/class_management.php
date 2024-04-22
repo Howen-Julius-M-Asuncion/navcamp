@@ -7,11 +7,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Section Management - <?php echo SITE_NAME?></title>
+    <title>Class Management - <?php echo SITE_NAME?></title>
     <link rel="icon" type="image/x-icon" href="<?php echo FAVICON;?>">
     <link href="./css/style.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/v/dt/dt-2.0.1/b-3.0.0/fc-5.0.0/fh-4.0.0/r-3.0.0/rg-1.5.0/sb-1.7.0/sp-2.3.0/sl-2.0.0/datatables.min.css" rel="stylesheet">
+    <?php include_once('../plugins/plugins-css.php');?>
     <style>
     </style>
 </head>
@@ -21,11 +20,13 @@
             <div class="bg-light rounded p-3 shadow-sm m-4">
                 <div class="row px-3">
                     <div class="col d-flex justify-content-between my-2">
-                        <h4>Class Section Management</h4>
+                        <h4>Class Management</h4>
                         <div class="actions fs-6">
-                            <button type="button" class="btn btn-outline-success btn-sm" id="addEntryBtn"><i class="fa-solid fa-plus"></i>&nbsp;New Entry</button>
-                            <button type="button" class="btn btn-outline-secondary btn-sm" id="editEntryBtn"><i class="fa-solid fa-pen"></i>&nbsp;Edit</button>
-                            <button type="button" class="btn btn-outline-danger btn-sm" id="deleteEntryBtn"><i class="fa-solid fa-trash-can"></i>&nbsp;Delete</button>
+                            <form method="get" action="" id="">
+                                <button type="button" class="btn btn-outline-success btn-sm" id="addEntryBtn"><i class="fa-solid fa-plus"></i>&nbsp;New Entry</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="editEntryBtn"><i class="fa-solid fa-pen"></i>&nbsp;Edit</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" id="deleteEntryBtn"><i class="fa-solid fa-trash-can"></i>&nbsp;Delete</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -34,26 +35,40 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th style="width: 100px;">Section</th>
-                                <th>Year</th>
-                                <th>Program</th>
-                                <th>Department</th>
+                                <th></th>
+                                <th>Section</th>
                                 <th>Faculty</th>
+                                <th>Academic Year</th>
+                                <th>Courses</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                $result2 = $conn->query("SELECT sections.*, user_accounts.first_name, user_accounts.last_name FROM sections JOIN user_accounts ON sections.user_ID = user_accounts.user_ID");
-                                    while($userList=$result2->fetch_assoc()){
-                                        $full_name = $userList['first_name'].' '.$userList['last_name'];
+                                $query = 
+                                "SELECT classes.*, 
+                                    (SELECT GROUP_CONCAT(courses.code SEPARATOR ', ') 
+                                    FROM class_courses 
+                                    LEFT JOIN courses ON class_courses.course_id = courses.id 
+                                    WHERE class_courses.class_id = classes.id) AS class_courses,
+                                    CONCAT(year_start, '-', year_end) AS academic_year,
+                                    (SELECT code FROM sections WHERE sections.id = classes.section_id) AS section_code,
+                                    (SELECT CONCAT(first_name, ' ', last_name) FROM users WHERE users.id = faculty.user_id) AS user_full_name
+                                FROM 
+                                    classes, faculty;
+                                ";
+                            
+                                
+                                $result = $conn->query($query);
+                                    while($list=$result->fetch_assoc()){
+
                             ?>
                             <tr>
                                 <td></td>
-                                <td><?=$userList['code']?></td>
-                                <td><?=$userList['year_level']?></td>
-                                <td><?=$userList['program']?></td>
-                                <td><?=$userList['department']?></td>
-                                <td><?= $full_name?></td>
+                                <td></td>
+                                <td><?=$list['section_code']?></td>
+                                <td><?=$list['user_full_name']?></td>
+                                <td><?=$list['academic_year']?></td>
+                                <td><?=$list['class_courses']?></td>
                             </tr>
                             <?php
 								}
@@ -76,38 +91,66 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <label for="enter_code" class="form-label">Section Code</label>
-                                    <input type="text" class="form-control" id="enter_code" name="enter_code" value="">
-                                </div>
-                                <div class="col">
-                                    <label for="enter_year" class="form-label">Year Level</label>
-                                    <input type="number" class="form-control" id="enter_year" name="enter_year" value="">
-                                </div>
-                            </div>
                             <div class="mb-3">
-                                <label for="enter_prog" class="form-label">Program</label>
-                                <input type="text" class="form-control" id="enter_prog" name="enter_prog" value="">
-                            </div>
-                            <div class="mb-3">
-                                <label for="enter_dept" class="form-label">Department</label>
-                                <input type="text" class="form-control" id="enter_dept" name="enter_dept" value="">
+                                <div class="col">
+                                    <label for="enter_section" class="form-label">Section</label>
+                                    <select class="form-select" id="enter_section" name="enter_section" aria-label="Default select example">
+                                        <option selected></option>
+                                        <?php
+                                        $result2 = $conn->query(
+                                            "SELECT * FROM sections;"
+                                            );
+                                            while($sectionList=$result2->fetch_assoc()){
+                                        ?>
+                                        <option value="<?= $sectionList['id']?>"><?= $sectionList['code'] ?></option>
+                                        <?php
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="enter_faculty" class="form-label">Faculty</label>
                                 <select class="form-select" id="enter_faculty" name="enter_faculty" aria-label="Default select example">
                                         <option selected></option>
                                         <?php
-                                        $result2 = $conn->query("SELECT * FROM user_accounts WHERE user_type_id = 1");
-                                            while($userList=$result2->fetch_assoc()){
-                                                $full_name = $userList['first_name'].' '.$userList['last_name'];
+                                        $result3 = $conn->query(
+                                            "SELECT *, 
+                                                (SELECT CONCAT(first_name, ' ', last_name) FROM users WHERE users.id = faculty.user_id) AS full_name
+                                            FROM faculty;"
+                                            );
+                                            while($userList=$result3->fetch_assoc()){
                                         ?>
-                                        <option value="<?= $userList['user_id'] ?>"><?= $full_name?></option>
+                                        <option value="<?= $userList['id']?>"><?= $userList['full_name'] ?></option>
                                         <?php
                                             }
                                         ?>
+                                </select>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="enter_year1" class="form-label">Start Year</label>
+                                    <input type="number" min="1900" max="2099" class="form-control" id="enter_year1" name="enter_year1" value="<?= date('Y') ?>" onchange="updateEndYear()">
+                                </div>
+                                <div class="col">
+                                    <label for="enter_year2" class="form-label">End Year</label>
+                                    <input type="number" min="1900" max="2099" class="form-control" id="enter_year2" name="enter_year2" value="<?= date('Y')+1 ?>">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="enter_course" class="form-label">Courses</label>
+                                    <select name="enter_course[]" class="form-control multiple-category" id="enter_course" multiple="multiple" style="width: 100%;">
+                                    <?php
+                                    $result2 = $conn->query("SELECT * FROM courses");
+                                        while($course=$result2->fetch_assoc()){
+                                    ?>
+                                        <option value="<?= $course['id'] ?>"><?= $course['description'] ?></option>
+                                    <?php
+                                        }
+                                    ?>
                                     </select>
+                                </div>
                             </div>
                         </div>
                         <!-- Modal Footer -->
@@ -130,7 +173,58 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                        
+                            <div class="mb-3">
+                                <div class="col">
+                                    <label for="enter_section" class="form-label">Section</label>
+                                    <select class="form-select" id="enter_section" name="enter_section" aria-label="Default select example">
+                                        <option selected></option>
+                                        <?php
+                                        $result2 = $conn->query(
+                                            "SELECT * FROM sections;"
+                                            );
+                                            while($sectionList=$result2->fetch_assoc()){
+                                        ?>
+                                        <option value="<?= $sectionList['id']?>"><?= $sectionList['code'] ?></option>
+                                        <?php
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="enter_faculty" class="form-label">Faculty</label>
+                                <select class="form-select" id="enter_faculty" name="enter_faculty" aria-label="Default select example">
+                                        <option selected></option>
+                                        <?php
+                                        $result3 = $conn->query(
+                                            "SELECT *, 
+                                                (SELECT CONCAT(first_name, ' ', last_name) FROM users WHERE users.id = faculty.user_id) AS full_name
+                                            FROM faculty;"
+                                            );
+                                            while($userList=$result3->fetch_assoc()){
+                                        ?>
+                                        <option value="<?= $userList['id']?>"><?= $userList['full_name'] ?></option>
+                                        <?php
+                                            }
+                                        ?>
+                                </select>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="enter_year1" class="form-label">Start Year</label>
+                                    <input type="number" min="1900" max="2099" class="form-control" id="enter_year1" name="enter_year1" value="<?= date('Y') ?>" onchange="updateEndYear()">
+                                </div>
+                                <div class="col">
+                                    <label for="enter_year2" class="form-label">End Year</label>
+                                    <input type="number" min="1900" max="2099" class="form-control" id="enter_year2" name="enter_year2" value="<?= date('Y')+1 ?>">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="enter_course" class="form-label">Category</label>
+                                    
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal"><i class="fa-solid fa-ban"></i>&nbsp;Cancel</button>
@@ -147,24 +241,69 @@
 <!-- PHP logic for data insertion modal -->
 <?php 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["addEntry"])) {
-        $code = $_POST["enter_code"];
-        $program = $_POST["enter_prog"];
-        $department = $_POST["enter_dept"];
-        $year_level = $_POST["enter_year"];
+        $section = $_POST["enter_section"];
         $faculty = $_POST["enter_faculty"];
+        $start_year = $_POST["enter_year1"];
+        $end_year = $_POST["enter_year2"];
 
-        $query = "INSERT INTO sections (code, program, department, year_level, user_id) VALUES ('$code', '$program', '$department', '$year_level', '$faculty')";
+        $query = "INSERT INTO classes (section_id, faculty_id, year_start, year_end) VALUES ('$section', '$faculty', '$start_year', '$end_year')";
 
         if (mysqli_query($conn, $query)) {	
-            echo "<script> alert('Data Inserted Successfully'); </script>";
+            // Get the ID of the inserted class
+            $last_id = mysqli_insert_id($conn);
+            
+            // Insert selected courses for the class
+            if(isset($_POST["enter_course"])) {
+                foreach ($_POST["enter_course"] as $key => $value){
+                    $category_id = $_POST["enter_course"][$key];
+                    $course_query = "INSERT INTO class_courses (class_id, course_id) VALUES ('$last_id', '$category_id')";
+                    mysqli_query($conn, $course_query);
+                }
+            }
+    
+            echo "<script> alert('Data Inserted Successfully. Inserted Class ID: $last_id'); </script>";
         } else {
             echo "Error: " . $query . "<br>" . mysqli_error($conn);
-        }
+        } 
     }
 ?>
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/v/dt/dt-2.0.1/b-3.0.0/fc-5.0.0/fh-4.0.0/r-3.0.0/rg-1.5.0/sb-1.7.0/sp-2.3.0/sl-2.0.0/datatables.min.js"></script>
-<script src="https://kit.fontawesome.com/71f85e3db5.js" crossorigin="anonymous"></script>
+<?php include_once('../plugins/plugins-js.php');?>
 <script src="./js/script.js"></script>
+<script>
+    function updateEndYear() {
+        var startYear = document.getElementById('enter_year1').value;
+        var endYearInput = document.getElementById('enter_year2');
+
+        // Calculate end year as start year + 1
+        var endYear = parseInt(startYear) + 1;
+        
+        // Update the value of enter_year2 input field
+        endYearInput.value = endYear;
+    }
+
+        // Function to reset the modal form fields
+        function resetModal() {
+        // Reset input fields
+        $('#enter_code').val('');
+        $('#enter_faculty').val('');
+        $('#enter_year1').val('');
+        $('#enter_year2').val(''); 
+
+        // Reset select2 dropdown
+        $('.multiple-category').val(null).trigger('change');
+    }
+
+    $(document).ready(function() {
+        // Initialize select2 dropdown
+        $('.multiple-category').select2({
+            dropdownParent: $('#addEntryModal'),
+            width: 'resolve'
+        });
+
+        // Reset modal on close
+        $('#addEntryModal').on('hidden.bs.modal', function () {
+            resetModal();
+        });
+    });
+</script>
 </html>
